@@ -1,10 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import './plugins/element.js';
 
-Vue.config.productionTip = false
+// css初始化
+import './assets/css/normalize.css';
+// 导入网络请求模块
+import request from './network/request';
+Vue.prototype.$http = request;
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount('#app');
