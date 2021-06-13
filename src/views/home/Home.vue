@@ -4,7 +4,7 @@
     <el-aside :width="isCollapse ? '64px' : '200px'">
       <!-- 导航栏 -->
       <el-menu
-        default-active="1"
+        :default-active="indexPath"
         class="el-menu-vertical-demo"
         background-color="#263445"
         text-color="#bfcbd9"
@@ -14,7 +14,7 @@
         router
         @select="handleMenuSelect"
       >
-        <el-menu-item index="1" route="/welcome">
+        <el-menu-item index="home" route="/welcome">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
@@ -95,11 +95,15 @@ export default {
       // 控制导航栏是否收缩
       isCollapse: false,
       // 当前选择的一级和二级导航名称
-      menuName: null
+      menuName: null,
+      // 默认选中的菜单导航项
+      indexPath: 'home'
     };
   },
   created() {
     this.getMenuList();
+    // 获取当前路由地址改选中的菜单导航项和面包屑数据
+    this.getMenuName();
   },
   methods: {
     // 获取导航栏数据
@@ -124,6 +128,8 @@ export default {
       // 跳转到登录页面
       this.$router.push('/login');
     },
+
+    // 菜单被选中时响应函数
     handleMenuSelect(index, indexPath){
       // 当前选择的一级菜单数据
       const parentMenu = this.menus.filter(item => item.id == indexPath[0])[0];
@@ -132,9 +138,22 @@ export default {
 
       // 获取对应的导航栏名称，用于面包屑
       this.menuName = {
+        index,
         parentMenu: parentMenu.authName,
         currentMenu: currentMenu.authName
       }
+
+      // 防止页面被刷新清空menuName数据，故缓存下来
+      window.localStorage.setItem('menuName', JSON.stringify(this.menuName));
+    },
+
+    getMenuName(){
+      // 如果为首页的话，不使用缓存
+      if (this.$route.path === '/welcome') return this.indexPath = 'home';
+      // 页面刷新时自动加载缓存下来的menuName数据
+      this.menuName = JSON.parse(window.localStorage.getItem('menuName'));
+      // 更改默认选中的菜单导航项
+      this.indexPath = this.menuName.index;
     }
   },
   components: {
@@ -199,7 +218,7 @@ export default {
       padding: 10px;
       // color: #333;
       .el-breadcrumb{
-        padding: 10px;
+        padding: 5px 10px 15px 10px;
       }
     }
   }

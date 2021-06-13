@@ -19,7 +19,17 @@ import {
   Submenu,
   MenuItemGroup,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Card,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Switch,
+  Pagination,
+  Loading,
+  Dialog,
+  MessageBox
 } from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css";
 
@@ -45,8 +55,20 @@ Vue.use(MenuItemGroup);
 
 Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
+Vue.use(Card);
 
+Vue.use(Row);
+Vue.use(Col);
 
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Switch);
+
+Vue.use(Pagination);
+Vue.use(Dialog)
+
+Vue.use(Loading.directive);
 
 Vue.prototype.$message = Message;
-
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$confirm = MessageBox.confirm;
