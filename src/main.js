@@ -5,6 +5,8 @@ import './plugins/element.js';
 
 // css初始化
 import './assets/css/normalize.css';
+// 导入iconfont图标css
+import './assets/css/iconfont.css';
 // 导入网络请求模块
 import request from './network/request';
 Vue.prototype.$http = request;

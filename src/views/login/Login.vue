@@ -33,10 +33,10 @@
 
         <div class="btn">
           <!-- 登录和重置 -->
-          <el-button type="primary" @click="submitForm"
+          <el-button type="primary" @click="submitForm" size="mini"
             >登录</el-button
           >
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="resetForm('ruleForm')" size="mini">重置</el-button>
         </div>
       </div>
     </div>
@@ -48,19 +48,29 @@ export default {
   data() {
     return {
       ruleForm: {
-        username:'admin',
-        password: '123456'
+        username: 'admin',
+        password: '123456',
       },
       rules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: 'blur' },
-          { min: 3, max: 10, message: "长度在3到10个字符之间", trigger: 'blur' }
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          {
+            min: 3,
+            max: 10,
+            message: '长度在3到10个字符之间',
+            trigger: 'blur',
+          },
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: 'blur' },
-          { min: 6, max: 15, message: "长度在6到15个字符之间", trigger: 'blur' }
-        ]
-      }
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          {
+            min: 6,
+            max: 15,
+            message: '长度在6到15个字符之间',
+            trigger: 'blur',
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -69,22 +79,31 @@ export default {
       if (result.meta.status === 200) {
         // 保存获取的token
         window.localStorage.setItem('token', result.data.token);
+        // 保存用户信息到localStorage
+        const userInfo = {
+          id: result.data.id,
+          username: result.data.username,
+          mobile: result.data.mobile,
+          email: result.data.email
+        }
+        // JSON.stringify(userInfo)对象转字符串
+        window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        console.log(window.localStorage.getItem('userInfo'));
         // 弹出登录成功提示
         this.$message({
           showClose: true,
-          message: '恭喜你，登录成功~',
-          type: 'success'
+          message: `${userInfo.username}，欢迎回来~`,
+          type: 'success',
         });
         // 跳转到首页
         this.$router.push('/');
-      }else{
+      } else {
         this.$message({
           showClose: true,
           message: '账号或密码有误，请检查！',
-          type: 'error'
+          type: 'error',
         });
       }
-
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -97,11 +116,11 @@ export default {
 .login {
   width: 100vw;
   height: 100vh;
-  background-color: #cccccc;
+  background-color: #d3dce6;
   position: relative;
 
   .login-wrapper {
-    width: 40%;
+    width: 30%;
     height: 40%;
     display: flex;
     flex-direction: column;
@@ -122,11 +141,11 @@ export default {
       padding-bottom: 0.5em;
     }
 
-    .content{
+    .content {
       padding-right: 50px;
       box-sizing: border-box;
 
-      .btn{
+      .btn {
         margin-right: -50px;
         text-align: center;
       }

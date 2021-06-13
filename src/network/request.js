@@ -6,6 +6,7 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(config => {
+  // 添加请求头
   config.headers.Authorization = window.localStorage.getItem('token');
   return config;
 })
