@@ -9,7 +9,7 @@
       </el-row>
 
       <!-- 角色列表 -->
-      <el-table :data="list" border>
+      <el-table :data="list" border v-loading="loading">
         <!-- 展开列表区域 -->
         <el-table-column align="center" width="40" type="expand">
           <template slot-scope="scope">
@@ -169,7 +169,9 @@ export default {
       // 修改角色信息的验证规则
       modifyRolerules: {
         roleName: [{required: true, message: '角色名称不能为空！', trigger: 'blur'}]
-      }
+      },
+      // 触发loading的开关
+      loading: true
     };
   },
   created() {
@@ -177,9 +179,13 @@ export default {
   },
   methods: {
     async getRoleList() {
+      // 打开loading开关
+      this.loading = true;
       const result = await this.$http.get('/roles');
       if (result.meta.status !== 200) return this.$message.error('获取角色列表失败！');
       this.list = result.data;
+      // 获取数据完成，关闭loading
+      this.loading = false;
     },
     //添加角色 
     handleAddRole(){
