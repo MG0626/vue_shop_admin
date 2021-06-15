@@ -158,7 +158,7 @@ export default {
       },
       // 当前打开dialog的权限节点id
       roleId: 0,
-      // 默认选中的tree节点数组
+      // 默认选中的tree树节点数组
       defKeys: [],
       // 当前时在添加或修改角色
       currentTitle: '添加角色', 
