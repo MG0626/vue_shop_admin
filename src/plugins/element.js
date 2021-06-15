@@ -29,7 +29,9 @@ import {
   Pagination,
   Loading,
   Dialog,
-  MessageBox
+  MessageBox,
+  Tag,
+  Tree
 } from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css";
 
@@ -65,7 +67,10 @@ Vue.use(TableColumn);
 Vue.use(Switch);
 
 Vue.use(Pagination);
-Vue.use(Dialog)
+Vue.use(Dialog);
+Vue.use(Tag);
+
+Vue.use(Tree);
 
 Vue.use(Loading.directive);
 

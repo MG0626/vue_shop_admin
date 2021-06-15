@@ -166,6 +166,7 @@ export default {
 .home {
   width: 100vw;
   height: 100vh;
+  min-width: 1366px;
   display: flex;
 
   .el-aside {
