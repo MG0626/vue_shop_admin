@@ -101,7 +101,7 @@
       :props="treeProps"></el-tree>
 
       <div slot="footer">
-        <el-button @click="modifyUserVisible = false" size="small">取 消</el-button>
+        <el-button @click="dialogTableVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="allotRights" size="small">确 定</el-button>
       </div>
     </el-dialog>

@@ -48,7 +48,7 @@
             <el-button 
               type="warning" 
               size="mini"
-              @click="handleAssign(scope.$index, scope.row)">分配角色</el-button>
+              @click="handleAssign(scope.row)">分配角色</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -158,6 +158,40 @@
         <el-button type="primary" @click="modifyUser" size="small">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 分配角色的dialog -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="assignUserVisible"
+      center
+      width="40%"
+      class="assign"
+      @close="handleAssignClose"
+      >
+      <el-row>
+        <el-col>当前用户名称： {{currentUserInfo.username}}</el-col>
+        <el-col>当前分配的角色： {{currentUserInfo.role_name}}</el-col>
+        <el-col>
+          <span>当前分配的新角色：</span>
+          <el-select 
+            v-model="currentSelect"
+            value-key="id"
+            placeholder="请选择"
+            size="mini">
+            <el-option 
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item"
+              ></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+      <div slot="footer">
+        <el-button @click="assignUserVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" size="small" @click="handleAssignRole">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -223,7 +257,19 @@ export default {
         mobile: [
           { required: true, validator: checkMobile, trigger: 'blur' }
         ]
-      }
+      },
+      // 分配角色dialog的开关
+      assignUserVisible: false,
+      // 当前操作的用户信息
+      currentUserInfo: {
+        id: 0,
+        username: '',
+        role_name: ''
+      },
+      // select选择器角色列表
+      roleList: [],
+      // select当前选中的选项
+      currentSelect: null
     };
   },
   created() {
@@ -314,9 +360,7 @@ export default {
         if(!valid) return;
         const result = await this.$http.put(`users/${this.userInfo.id}`, this.userInfo);
         console.log(result);
-        if (result.meta.status !== 200) {
-          return this.$message.error(result.meta.msg);
-        }
+        if (result.meta.status !== 200) return this.$message.error(result.meta.msg);
         this.$message.success('修改用户信息成功~');
         //关闭dialog
         this.modifyUserVisible = false;
@@ -350,8 +394,42 @@ export default {
           });          
         });
     },
-    handleAssign(){
-
+    async handleAssign(info){
+      // 获取当前用户的名字和角色
+      const { id, username, role_name } = info;
+      this.currentUserInfo = {
+        id,
+        username,
+        role_name
+      }
+      // 获取角色列表roleList
+      const result = await this.$http.get('/roles');
+      if (result.meta.status !== 200) return this.$message.error(result.meta.msg);
+      this.roleList = result.data.map(item => {
+        return {
+          id: item.id,
+          roleName: item.roleName
+        }
+      })
+      console.log(this.roleList);
+      // 打开分配角色的dialog
+      this.assignUserVisible = true;
+    },
+    // 重新分配角色
+    async handleAssignRole(){
+      if(!this.currentSelect) return this.$message.error('请选择要分配的角色！');
+      const result = await this.$http.put(`/users/${this.currentUserInfo.id}/role`, { rid: this.currentSelect.id });
+      if (result.meta.status !== 200) return this.$message.error(result.meta.msg);
+      this.$message.success('分配用户新角色成功~');
+      // 关闭分配角色的dialog
+      this.assignUserVisible = false;
+      // 重新获取数据
+      this.getUserList();
+    },
+    // 关闭dialog时的回调函数
+    handleAssignClose(){
+      // 清空选中的内容，避免有缓存影响下一次选择
+      this.currentSelect = null;
     }
   },
 };
@@ -374,6 +452,17 @@ export default {
     .body{
       .el-form{
         padding-right: 15px;
+      }
+    }
+  }
+
+  .assign{
+    .el-row{
+      .el-col{
+        padding-top: 15px;
+        .el-select{
+          width: 150px;
+        }
       }
     }
   }
