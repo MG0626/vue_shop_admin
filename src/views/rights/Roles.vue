@@ -12,14 +12,14 @@
       <el-table :data="list" border v-loading="loading">
         <!-- 展开列表区域 -->
         <el-table-column align="center" width="40" type="expand">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-row
               v-for="item1 in scope.row.children"
               :key="item1.id"
               class="one"
             >
               <!-- 一级 -->
-              <el-col :span="4" class="">
+              <el-col :span="4">
                 <el-tag closable @close="handleTagClose(scope.row.id, item1.id, scope.row.children)">{{ item1.authName }}</el-tag>
                 <i class="el-icon-caret-right" style="margin-left: 5px;"></i>
               </el-col>
@@ -70,7 +70,7 @@
           prop="roleDesc"
         ></el-table-column>
         <el-table-column align="center" label="操作">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)"
               >编辑</el-button
             >
@@ -100,10 +100,10 @@
       :default-checked-keys="defKeys"
       :props="treeProps"></el-tree>
 
-      <div slot="footer">
+      <template #footer>
         <el-button @click="dialogTableVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="allotRights" size="small">确 定</el-button>
-      </div>
+      </template>
     </el-dialog>
 
     <!-- 添加和修改角色信息的dialog -->
@@ -134,10 +134,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <div slot="footer">
+      <template #footer>
         <el-button @click="modifyRoleVisible = false" size="small">取 消</el-button>
         <el-button type="primary" size="small" @click="modifyRoleInfo">确 定</el-button>
-      </div>
+      </template>
     </el-dialog>
   </div>
 </template>

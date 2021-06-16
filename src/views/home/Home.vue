@@ -16,12 +16,14 @@
       >
         <el-menu-item index="home" route="/welcome">
           <i class="el-icon-s-home"></i>
-          <span slot="title">首页</span>
+          <template #title>
+            <span>首页</span>
+          </template>
         </el-menu-item>
 
         <!-- 一级 -->
         <el-submenu v-for="item in menus" :key="item.id" :index="`${item.id}`">
-          <template slot="title">
+          <template #title>
             <i :class="icons[item.id]"></i>
             <span>{{ item.authName }}</span>
           </template>
@@ -31,7 +33,7 @@
             :key="menu.id"
             :index="menu.path"
           >
-            <template slot="title">
+            <template #title>
               <i class="el-icon-menu"></i>
               <span>{{ menu.authName }}</span>
             </template>
@@ -55,11 +57,13 @@
               ></el-avatar>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </div>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                ><span @click="LogOut">退出登录</span></el-dropdown-item
-              >
-            </el-dropdown-menu>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <span @click="LogOut">退出登录</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </div>
       </el-header>
@@ -131,6 +135,8 @@ export default {
 
     // 菜单被选中时响应函数
     handleMenuSelect(index, indexPath){
+      // 当选中的为home时不执行
+      if(index === 'home') return;
       // 当前选择的一级菜单数据
       const parentMenu = this.menus.filter(item => item.id == indexPath[0])[0];
       // 获取二级菜单

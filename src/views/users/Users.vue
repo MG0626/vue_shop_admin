@@ -26,7 +26,7 @@
         <el-table-column align="center" prop="mobile" label="电话"></el-table-column>
         <el-table-column align="center" prop="role_name" label="角色"></el-table-column>
         <el-table-column align="center" prop="mg_state" label="状态">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-switch
               v-model="scope.row.mg_state"
               @change="changeUserState(scope.row)"
@@ -36,7 +36,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="240">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button 
               type="primary" 
               size="mini"
@@ -53,24 +53,12 @@
         </el-table-column>
       </el-table>
 
-      <!-- 
-        分页 
-          => @size-change 监听一页显示多少条数据，改变就触发，接收最新的每一页显示条数pagesize
-          => @current-change 监听页码的改变，接收最新的页码
-          => current-page 当前显示的第几页
-          => page-sizes 显示条数的选项
-          => page-size 当前每页显示的条数
-          => total 总共多少条数据
-      -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum"
-        :page-sizes="[1, 2, 5, 10]"
-        :page-size="queryInfo.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
-      </el-pagination>
+      <!-- 分页区域，自定义组件 -->
+      <pagination 
+        :info="queryInfo"
+        @handleSizeChange="handleSizeChange"
+        @handleCurrentChange="handleCurrentChange"
+        :total="total"/>
     </el-card>
 
     <!-- 添加用户的dialog -->
@@ -113,10 +101,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <div slot="footer">
+      <template #footer>
         <el-button @click="addUserVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="addNewUser" size="small">确 定</el-button>
-      </div>
+      </template>
     </el-dialog>
 
     <!-- 修改用户信息的dialog -->
@@ -153,10 +141,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <div slot="footer">
+      <template #footer>
         <el-button @click="modifyUserVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="modifyUser" size="small">确 定</el-button>
-      </div>
+      </template>
     </el-dialog>
 
     <!-- 分配角色的dialog -->
@@ -187,15 +175,17 @@
           </el-select>
         </el-col>
       </el-row>
-      <div slot="footer">
+      <template #footer>
         <el-button @click="assignUserVisible = false" size="small">取 消</el-button>
         <el-button type="primary" size="small" @click="handleAssignRole">确 定</el-button>
-      </div>
+      </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import Pagination from '../../components/pagination/Pagination.vue';
+
 export default {
   data() {
     /**
@@ -432,6 +422,9 @@ export default {
       this.currentSelect = null;
     }
   },
+  components: {
+    Pagination
+  }
 };
 </script>
 

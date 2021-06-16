@@ -19,7 +19,7 @@
           label="路径"
         ></el-table-column>
         <el-table-column align="center" label="权限等级">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-tag :type="scope.row.level | type">{{
               scope.row.level | level
             }}</el-tag>
