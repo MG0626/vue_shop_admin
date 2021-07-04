@@ -4,6 +4,7 @@
     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item>{{ menuName.parentMenu }}</el-breadcrumb-item>
     <el-breadcrumb-item>{{ menuName.currentMenu }}</el-breadcrumb-item>
+    <el-breadcrumb-item v-if=" menuName.additionalName && menuName.additionalName !== ''">{{ menuName.additionalName }}</el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 

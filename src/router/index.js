@@ -33,9 +33,10 @@ const routes = [
         path: '/goods',
         component: () => import('../views/goods/Goods.vue')
       },
+      // 添加商品页面
       {
-        path: '/goods',
-        component: () => import('../views/goods/Goods.vue')
+        path: '/goods/add',
+        component: () => import('../views/goods/AddGoods.vue')
       },
       {
         path: '/params',

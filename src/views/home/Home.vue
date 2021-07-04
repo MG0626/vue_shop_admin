@@ -71,7 +71,8 @@
       <el-main>
         <!-- 面包屑导航栏 -->
         <breadcrumb :menuName="menuName" />
-        <router-view></router-view>
+        <!-- 这里还要监听路由子页面发射过来的事件 -->
+        <router-view @additional="additional"></router-view>
       </el-main>
     </el-container>
   </div>
@@ -159,6 +160,10 @@ export default {
       this.menuName = JSON.parse(window.localStorage.getItem('menuName'));
       // 更改默认选中的菜单导航项
       this.indexPath = this.menuName.index;
+    },
+    // 路由子页面发射过来的事件，用于添加面包屑新一级名称
+    additional(name){
+      this.menuName.additionalName = name;
     }
   },
   components: {
