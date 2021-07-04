@@ -113,7 +113,6 @@ export default {
     // 获取导航栏数据
     async getMenuList() {
       const result = await this.$http.get('/menus');
-      console.log(result);
       // 请求失败时返回错误，同时return不再继续执行下去
       if (result.meta.status !== 200)
         return this.$message.error(result.meta.msg);

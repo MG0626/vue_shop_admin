@@ -184,7 +184,6 @@ import Pagination from '../../components/pagination/Pagination.vue';
       async addBtn(){
         // 获取数据
         const result = await this.$http.get('/categories', { params: { type: 2 } });
-        console.log(result);
         if (result.meta.status !== 200) return this.$message.error(result.meta.msg);
         this.options = result.data;
         // 打开添加分类dialog
