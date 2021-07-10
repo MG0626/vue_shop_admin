@@ -313,7 +313,6 @@ import Pagination from '../../components/pagination/Pagination.vue';
 <style lang="less" scoped>
 .categories{
   .el-table{
-    margin-top: 15px;
     .el-icon-success{
       color: lightgreen;
     }

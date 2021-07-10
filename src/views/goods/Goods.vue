@@ -164,8 +164,6 @@ import Pagination from '../../components/pagination/Pagination.vue';
 
 <style lang="less" scoped>
 .list{
-  .el-table{
-    margin-top: 15px;
-  }
+  
 }
 </style>

@@ -12,7 +12,7 @@
         <el-col :span="2.5" >选择商品分类：</el-col>
         <el-col :span="5">
           <el-cascader
-          v-model="selectKeys"
+            v-model="selectKeys"
             style="width: 100%"
             :options="options"
             :props="props"
@@ -394,10 +394,6 @@
   .el-card{
     .el-row{
       padding: 10px 0;
-    }
-
-    .el-table{
-      margin: 15px 0;
     }
   }
 }

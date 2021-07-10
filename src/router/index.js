@@ -80,18 +80,29 @@ const router = new VueRouter({
 // 路由导航守卫
 router.beforeEach((to, from, next) => {
   // 获取token
-  const token = window.localStorage.getItem('token');
-
+  const info = JSON.parse(window.localStorage.getItem('info'));
   // 如果访问的是登录页面，则进入判断
   if (to.path === '/login') {
-    // 已经存在token，则说明已经登录，这个时候不允许访问登录页面
-    if (token) return next('/');
+    // 已经存在token，则说明已经登录过，这个时候不允许访问登录页面
+    if (info) return next('/');
     // 没有登录。则放行
     return next();
   }
+  // 验证token是否过期
+  if (info){
+    const difference = Date.now() - info.time; // 当前时间戳和上次登录时间戳的差
+    // token过期，则清空原来token，并且跳转到登录页面
+    // 24 * 60 * 60 * 1000 一天
+    if( difference > (24 * 60 * 60 * 1000) ){
+      // 清空token
+      window.localStorage.removeItem('info');
+      router.app.$message.error('身份信息已过期，请重新登录！')
+      return next('/login');
+    }
+  };
 
   // 没有token，就跳转到登录页面
-  if (!token) return next('/login');
+  if (!info) return next('/login');
   // 没有问题，放行
   next();
 });

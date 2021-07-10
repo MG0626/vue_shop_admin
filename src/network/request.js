@@ -7,7 +7,10 @@ const http = axios.create({
 
 http.interceptors.request.use(config => {
   // 添加请求头
-  config.headers.Authorization = window.localStorage.getItem('token');
+  const info = JSON.parse(window.localStorage.getItem('info'));
+  if(info){
+    config.headers.Authorization = info.token;
+  }
   return config;
 })
 

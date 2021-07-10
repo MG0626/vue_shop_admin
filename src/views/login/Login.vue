@@ -77,8 +77,12 @@ export default {
     async submitForm() {
       const result = await this.$http.post('/login', this.ruleForm);
       if (result.meta.status === 200) {
-        // 保存获取的token
-        window.localStorage.setItem('token', result.data.token);
+        // 保存获取的token和时间戳
+        const info = {
+          token: result.data.token,
+          time: Date.now()
+        }
+        window.localStorage.setItem('info', JSON.stringify(info));
         // 保存用户信息到localStorage
         const userInfo = {
           id: result.data.id,

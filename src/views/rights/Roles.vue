@@ -348,10 +348,6 @@ export default {
 .roles {
   .el-card {
     .el-table {
-      margin-top: 15px;
-      .el-row {
-        // padding: 20px 20px 20px 0;
-      }
       .one {
         &:first-child {
           border-top: 1px solid #eee;

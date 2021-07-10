@@ -122,7 +122,7 @@ export default {
     },
     LogOut() {
       // 清空token
-      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('info');
       // 弹出提示
       this.$message({
         showClose: true,
