@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import './plugins/element.js';
+// import './plugins/element.js';
 
 // css初始化
 import './assets/css/normalize.css';
